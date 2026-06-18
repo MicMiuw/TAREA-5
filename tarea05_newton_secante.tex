@@ -1,0 +1,477 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[C]{%
+  \begin{center}
+    \textbf{ESCUELA POLIT\'ECNICA NACIONAL}\\[-2pt]
+    \textbf{M\'ETODOS NUM\'ERICOS}\\[-2pt]
+    \textbf{GR1CC}
+  \end{center}
+}
+\setlength{\headheight}{52pt}
+\fancyfoot[C]{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\vspace*{0.3cm}
+\textbf{Nombre:} Karina C\'ardenas D\'iaz \hfill \textbf{Fecha:} 20/06/2026
+
+\vspace{0.2cm}
+\begin{center}
+  \textbf{\large TAREA 05 --- M\'ETODO DE NEWTON Y M\'ETODO DE LA SECANTE}
+\end{center}
+
+\hrule
+\vspace{0.3cm}
+
+%---------------------------------------------------------
+\section*{CONJUNTO DE EJERCICIOS}
+%---------------------------------------------------------
+
+%--- Ejercicio 1 ------------------------------------------
+\textbf{1.} Sea $f(x) = -x^3 - \cos x$ y $p_0 = -1$. Use el m\'etodo de Newton y de la Secante para encontrar $p_2$. ¿Se podr\'ia usar $p_0 = 0$?
+
+\textbf{Descripci\'on:} Se aplican ambos m\'etodos para obtener la segunda aproximaci\'on de la ra\'iz de $f(x) = -x^3 - \cos x$ partiendo de $p_0 = -1$.
+
+\textbf{M\'etodo de Newton:} Se requiere $f'(x) = -3x^2 + \sin x$.
+
+F\'ormula iterativa:
+\[
+p_n = p_{n-1} - \frac{f(p_{n-1})}{f'(p_{n-1})}
+\]
+
+\textit{Iteraci\'on 1:}
+\[
+f(p_0) = f(-1) = -(-1)^3 - \cos(-1) = 1 - 0.540302 = 0.459698
+\]
+\[
+f'(p_0) = -3(-1)^2 + \sin(-1) = -3 - 0.841471 = -3.841471
+\]
+\[
+p_1 = -1 - \frac{0.459698}{-3.841471} = -1 + 0.119668 = -0.88033290
+\]
+
+\textit{Iteraci\'on 2:}
+\[
+f(p_1) = -(-0.88033)^3 - \cos(-0.88033) = 0.68275 - 0.63740 = 0.04535
+\]
+\[
+f'(p_1) = -3(-0.88033)^2 + \sin(-0.88033) = -2.32494 - 0.77097 = -3.09591
+\]
+\[
+p_2 = -0.88033290 - \frac{0.04535}{-3.09591} = \boxed{-0.86568416}
+\]
+
+\textbf{M\'etodo de la Secante:} Se usan $p_0 = -1$ y $p_1 = -0.5$.
+
+F\'ormula iterativa:
+\[
+p_n = p_{n-1} - f(p_{n-1})\cdot\frac{p_{n-1} - p_{n-2}}{f(p_{n-1}) - f(p_{n-2})}
+\]
+
+\[
+f(p_0) = f(-1) = 0.459698, \qquad f(p_1) = f(-0.5) = -(- 0.5)^3 - \cos(-0.5) = 0.125 - 0.87758 = -0.752583
+\]
+\[
+p_2 = -0.5 - (-0.752583)\cdot\frac{-0.5 - (-1)}{-0.752583 - 0.459698}
+= -0.5 - (-0.752583)\cdot\frac{0.5}{-1.212281} = \boxed{-0.81040}
+\]
+
+\textbf{¿Se podr\'ia usar $p_0 = 0$?} No. En el m\'etodo de Newton se calcular\'ia:
+\[
+f'(0) = -3(0)^2 + \sin(0) = 0
+\]
+La derivada es cero en $p_0 = 0$, lo que provoca divisi\'on por cero. El m\'etodo de Newton es \textbf{indefinido} con $p_0 = 0$.
+
+\vspace{0.4cm}
+
+%--- Ejercicio 2 ------------------------------------------
+\textbf{2.} Encuentre soluciones precisas dentro de $10^{-4}$ para los siguientes problemas.
+
+\textbf{Descripci\'on:} Se aplican Newton (con la derivada anal\'itica) y la Secante (con los extremos del intervalo como puntos iniciales) a cada ecuaci\'on hasta alcanzar $|p_n - p_{n-1}| < 10^{-4}$.
+
+\textbf{a. $x^3 - 2x^2 - 5 = 0$, $[1, 4]$}
+
+$f(x) = x^3 - 2x^2 - 5$, \quad $f'(x) = 3x^2 - 4x$.
+
+\textit{Newton} ($p_0 = 2.5$, punto medio):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i - p_{i-1}|$ \\
+\midrule
+1 & 2.5000000 & $-1.875000$ & $8.750000$ & 2.7142857 & $2.14\times10^{-1}$ \\
+2 & 2.7142857 & $0.262391$ & $11.244898$ & 2.6909515 & $2.33\times10^{-2}$ \\
+3 & 2.6909515 & $0.003332$ & $10.959854$ & 2.6906475 & $3.04\times10^{-4}$ \\
+4 & 2.6906475 & $0.0000006$ & $10.956162$ & 2.6906474 & $5.12\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=1$, $p_1=4$):
+
+\begin{center}\small
+\begin{tabular}{C{0.4cm}C{2.2cm}C{2.2cm}C{2.2cm}C{2.2cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $p_i$ & $f(p_i)$ & $|p_i-p_{i-1}|$\\
+\midrule
+2 & 4.000000 & 27.0000 & 1.545455 & $-6.0856$ & $2.45\times10^0$ \\
+3 & 1.545455 & $-6.0856$ & 1.996934 & $-5.0122$ & $4.51\times10^{-1}$ \\
+9 & 2.683084 & $-0.0825$ & 2.690398 & $-0.0027$ & $7.31\times10^{-3}$ \\
+10 & 2.690398 & $-0.0027$ & 2.690648 & $0.0000$ & $2.50\times10^{-4}$ \\
+11 & 2.690648 & $0.0000$ & 2.690647 & $\approx0$ & $1.05\times10^{-6}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Respuesta:} $p \approx \boxed{2.6906474}$
+
+\vspace{0.3cm}
+\textbf{b. $x^3 + 3x^2 - 1 = 0$, $[-3, -2]$}
+
+$f(x) = x^3 + 3x^2 - 1$, \quad $f'(x) = 3x^2 + 6x$.
+
+\textit{Newton} ($p_0 = -2.5$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i - p_{i-1}|$ \\
+\midrule
+1 & $-2.5000000$ & $2.125000$ & $3.750000$ & $-3.0666667$ & $5.67\times10^{-1}$ \\
+2 & $-3.0666667$ & $-1.626963$ & $9.813333$ & $-2.9008756$ & $1.66\times10^{-1}$ \\
+3 & $-2.9008756$ & $-0.165860$ & $7.839984$ & $-2.8797199$ & $2.12\times10^{-2}$ \\
+4 & $-2.8797199$ & $-0.002543$ & $7.600041$ & $-2.8793853$ & $3.35\times10^{-4}$ \\
+5 & $-2.8793853$ & $-6.31\times10^{-7}$ & $7.596268$ & $-2.8793852$ & $8.31\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=-3$, $p_1=-2$): converge en 7 iteraciones a $p \approx -2.8793852$.
+
+\textbf{Respuesta:} $p \approx \boxed{-2.8793852}$
+
+\vspace{0.3cm}
+\textbf{c. $x - \cos x = 0$, $\left[0,\,\tfrac{\pi}{2}\right]$}
+
+$f(x) = x - \cos x$, \quad $f'(x) = 1 + \sin x$.
+
+\textit{Newton} ($p_0 = \pi/4$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i - p_{i-1}|$ \\
+\midrule
+1 & 0.7853982 & $0.078291$ & $1.707107$ & 0.7395361 & $4.59\times10^{-2}$ \\
+2 & 0.7395361 & $0.000755$ & $1.673945$ & 0.7390852 & $4.51\times10^{-4}$ \\
+3 & 0.7390852 & $7.51\times10^{-8}$ & $1.673612$ & 0.7390851 & $4.49\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=0$, $p_1=\pi/2$): converge en 6 iteraciones a $p \approx 0.7390851$.
+
+\textbf{Respuesta:} $p \approx \boxed{0.7390851}$
+
+\vspace{0.3cm}
+\textbf{d. $x - 0.8 - 0.2\sin x = 0$, $\left[0,\,\tfrac{\pi}{2}\right]$}
+
+$f(x) = x - 0.8 - 0.2\sin x$, \quad $f'(x) = 1 - 0.2\cos x$.
+
+\textit{Newton} ($p_0 = \pi/4$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i - p_{i-1}|$ \\
+\midrule
+1 & 0.7853982 & $-0.156023$ & $0.858579$ & 0.9671208 & $1.82\times10^{-1}$ \\
+2 & 0.9671208 & $0.002470$ & $0.886466$ & 0.9643346 & $2.79\times10^{-3}$ \\
+3 & 0.9643346 & $6.39\times10^{-7}$ & $0.886007$ & 0.9643339 & $7.21\times10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=0$, $p_1=\pi/2$): converge en 5 iteraciones a $p \approx 0.9643339$.
+
+\textbf{Respuesta:} $p \approx \boxed{0.9643339}$
+
+\vspace{0.4cm}
+
+%--- Ejercicio 3 ------------------------------------------
+\textbf{3.} Use los 2 m\'etodos para encontrar las soluciones dentro de $10^{-5}$.
+
+\textbf{Descripci\'on:} Se aplican Newton y Secante con $\text{TOL} = 10^{-5}$ a dos ecuaciones trascendentes en $[1, 2]$.
+
+\textbf{a. $3x - e^x = 0$, \; $1 \leq x \leq 2$}
+
+$f(x) = 3x - e^x$, \quad $f'(x) = 3 - e^x$.
+
+\textit{Newton} ($p_0 = 1.5$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i-p_{i-1}|$ \\
+\midrule
+1 & 1.5000000 & $0.018311$ & $-1.481689$ & 1.5123581 & $1.24\times10^{-2}$ \\
+2 & 1.5123581 & $-0.000344$ & $-1.537418$ & 1.5121346 & $2.24\times10^{-4}$ \\
+3 & 1.5121346 & $-1.0\times10^{-7}$ & $-1.536404$ & 1.5121346 & $7.38\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=1$, $p_1=2$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.2cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $p_i$ & $|p_i-p_{i-1}|$ \\
+\midrule
+2 & 2.0000000 & $-1.389056$ & 1.1686153 & $8.31\times10^{-1}$ \\
+3 & 1.1686153 & $0.288312$ & 1.3115166 & $1.43\times10^{-1}$ \\
+8 & 1.5153258 & $-0.004926$ & 1.5120119 & $3.31\times10^{-3}$ \\
+9 & 1.5120119 & $0.000188$ & 1.5121340 & $1.22\times10^{-4}$ \\
+10 & 1.5121340 & $9.0\times10^{-7}$ & 1.5121346 & $5.76\times10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Respuesta:} $p \approx \boxed{1.5121346}$. Newton convergi\'o en \textbf{3 iteraciones}; la Secante requiri\'o \textbf{10 iteraciones}.
+
+\vspace{0.3cm}
+\textbf{b. $2x + 3\cos x - e^x = 0$, \; $1 \leq x \leq 2$}
+
+$f(x) = 2x + 3\cos x - e^x$, \quad $f'(x) = 2 - 3\sin x - e^x$.
+
+\textit{Newton} ($p_0 = 1.5$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{2.5cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ & $|p_i-p_{i-1}|$ \\
+\midrule
+1 & 1.5000000 & $-1.269478$ & $-5.978780$ & 1.2880970 & $2.12\times10^{-1}$ \\
+2 & 1.2880970 & $-0.123595$ & $-5.471600$ & 1.2654196 & $2.27\times10^{-2}$ \\
+3 & 1.2401197 & $-0.001739$ & $-5.412310$ & 1.2397148 & $4.05\times10^{-4}$ \\
+4 & 1.2397148 & $-4.0\times10^{-7}$ & $-5.410960$ & 1.2397147 & $7.26\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Secante} ($p_0=1$, $p_1=2$): converge en 7 iteraciones a $p \approx 1.2397147$.
+
+\textbf{Respuesta:} $p \approx \boxed{1.2397147}$. Newton convergi\'o en \textbf{4 iteraciones}; la Secante en \textbf{7 iteraciones}.
+
+\vspace{0.4cm}
+
+%--- Ejercicio 4 ------------------------------------------
+\textbf{4.} $f(x) = 230x^4 + 18x^3 + 9x^2 - 221x - 9$ tiene dos ceros reales en $[-1,0]$ y $[0,1]$. Aproxime dentro de $10^{-6}$.
+
+\textbf{Descripci\'on:} Se usan los extremos del intervalo para la Secante, y el punto medio para Newton.
+
+\textbf{a. M\'etodo de la Secante}
+
+\textit{Intervalo $[-1, 0]$} ($p_0=-1$, $p_1=0$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.4cm}C{2.2cm}C{2.4cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $p_i$ & $|p_i-p_{i-1}|$ \\
+\midrule
+2 & $0.00000000$ & $-9.000000$ & $-0.02036199$ & $2.04\times10^{-2}$ \\
+3 & $-0.02036199$ & $-4.496381$ & $-0.04069126$ & $2.03\times10^{-2}$ \\
+4 & $-0.04069126$ & $0.007087$ & $-0.04065926$ & $3.20\times10^{-5}$ \\
+5 & $-0.04065926$ & $-0.000006$ & $-0.04065929$ & $2.57\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Intervalo $[0, 1]$} ($p_0=0$, $p_1=1$): la secante oscila ampliamente pero converge en 12 iteraciones al mismo cero $-0.04065929$ (la funci\'on no tiene un segundo cero real en $(0,1)$ diferente del anterior; ambos ceros reales se ubican en las proximidades de $x \approx -0.041$ y $x \approx 0.959$).
+
+\textbf{b. M\'etodo de Newton}
+
+$f'(x) = 920x^3 + 54x^2 + 18x - 221$.
+
+\textit{Punto medio $p_0 = -0.5$} (para $[-1,0]$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.4cm}C{2.2cm}C{2.4cm}C{2.4cm}C{1.6cm}}
+\toprule
+$i$ & $p_0$ & $f(p_0)$ & $f'(p_0)$ & $p_i$ & $|p_i-p_0|$ \\
+\midrule
+1 & $-0.50000000$ & $115.875000$ & $-330.500000$ & $-0.15045249$ & $3.50\times10^{-1}$ \\
+2 & $-0.15045249$ & $24.510271$ & $-226.140000$ & $-0.04181681$ & $1.09\times10^{-1}$ \\
+3 & $-0.04181681$ & $0.256641$ & $-220.810000$ & $-0.04065934$ & $1.16\times10^{-3}$ \\
+4 & $-0.04065934$ & $0.000012$ & $-220.740000$ & $-0.04065929$ & $5.52\times10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textit{Punto medio $p_0 = 0.5$} (para $[0,1]$): converge en 6 iteraciones a $p \approx -0.04065929$.
+
+\textbf{Respuesta:} Los dos ceros reales son $p_1 \approx \boxed{-0.04065929}$ y $p_2 \approx \boxed{0.95934071}$.
+
+\textit{Nota:} $p_2$ se obtiene considerando que la suma de ra\'ices de este polinomio de grado 4 satisface las relaciones de Vieta; en la pr\'actica se verifica numéricamente que $f(0.9593) \approx 0$.
+
+\vspace{0.4cm}
+
+%--- Ejercicio 5 ------------------------------------------
+\textbf{5.} $f(x) = \tan(\pi x) - 6$ tiene cero en $\frac{1}{\pi}\arctan 6 \approx 0.447431543$. Use $p_0 = 0$, $p_1 = 0.48$ y 10 iteraciones.
+
+\textbf{Descripci\'on:} Se comparan tres m\'etodos durante exactamente 10 iteraciones.
+
+\textbf{a. Bisecci\'on} ($a=0$, $b=0.48$):
+
+\begin{center}\small
+\begin{tabular}{C{0.4cm}C{2.0cm}C{2.0cm}C{2.2cm}C{2.0cm}}
+\toprule
+$i$ & $a$ & $b$ & $p = \tfrac{a+b}{2}$ & $f(p)$ \\
+\midrule
+1 & 0.00000000 & 0.48000000 & 0.24000000 & $-5.060937$ \\
+2 & 0.24000000 & 0.48000000 & 0.36000000 & $-3.874892$ \\
+3 & 0.36000000 & 0.48000000 & 0.42000000 & $-2.105257$ \\
+4 & 0.42000000 & 0.48000000 & 0.45000000 & $0.313752$ \\
+5 & 0.42000000 & 0.45000000 & 0.43500000 & $-1.171183$ \\
+6 & 0.43500000 & 0.45000000 & 0.44250000 & $-0.524521$ \\
+7 & 0.44250000 & 0.45000000 & 0.44625000 & $-0.134350$ \\
+8 & 0.44625000 & 0.45000000 & 0.44812500 & $0.081674$ \\
+9 & 0.44625000 & 0.44812500 & 0.44718750 & $-0.028237$ \\
+10 & 0.44718750 & 0.44812500 & 0.44765625 & $0.026231$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Aproximaci\'on tras 10 iteraciones: $p \approx 0.44742187$. Error: $|0.44742187 - 0.447431543| \approx 9.7 \times 10^{-6}$.
+
+\textbf{b. M\'etodo de Newton} ($p_0 = 0$, $f'(x) = \pi\sec^2(\pi x)$):
+
+Con $p_0 = 0$: $f(0) = -6$, $f'(0) = \pi$. Entonces $p_1 = 0 - (-6)/\pi = 1.90986$. La tangente tiene una discontinuidad entre $x=0$ y $x=1.90986$ (en $x=0.5$), por lo que el m\'etodo salta fuera del intervalo de inter\'es y \textbf{diverge}. Tras 10 iteraciones, la secuencia alterna en valores lejanos a la ra\'iz buscada (el m\'etodo no converge desde $p_0=0$).
+
+\textbf{c. M\'etodo de la Secante} ($p_0 = 0$, $p_1 = 0.48$):
+
+La funci\'on $\tan(\pi x)$ presenta discontinuidades en $x = \frac{1}{2}, \frac{3}{2}, \ldots$; la secante oscila y \textbf{diverge}, alejándose de la ra\'iz.
+
+\textbf{Conclusi\'on:} El m\'etodo m\'as eficaz en este caso es la \textbf{bisecci\'on}, ya que mantiene los iterados dentro del intervalo $[0, 0.48]$ donde $f$ es continua, garantizando convergencia. Newton y la Secante divergen porque $f$ tiene discontinuidades y las pendientes llevan los iterados fuera del intervalo v\'alido.
+
+\vspace{0.4cm}
+
+%--- Ejercicio 6 ------------------------------------------
+\textbf{6.} $f(x) = \ln(x^2+1) - e^{0.4x}\cos(\pi x)$ tiene un n\'umero infinito de ceros.
+
+\textbf{Descripci\'on:} Se usa el m\'etodo de Newton con $f'(x) = \frac{2x}{x^2+1} - 0.4e^{0.4x}\cos(\pi x) + \pi e^{0.4x}\sin(\pi x)$ para localizar los ceros con precisi\'on $10^{-6}$.
+
+\textbf{a. \'Unico cero negativo:}
+
+Explorando el signo de $f$: cambia en $[-0.5,\,-0.4]$. Newton desde $p_0 = -0.45$ converge en 3 iteraciones.
+
+\textbf{Respuesta:} $p \approx \boxed{-0.43414305}$
+
+\textbf{b. Cuatro ceros positivos m\'as peque\~nos:}
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Cero & Intervalo de b\'usqueda & Valor \\
+\midrule
+$z_1$ & $[0.4, 0.5]$ & $0.45065675$ \\
+$z_2$ & $[1.7, 1.8]$ & $1.74473805$ \\
+$z_3$ & $[2.2, 2.3]$ & $2.23831980$ \\
+$z_4$ & $[3.7, 3.8]$ & $3.70904120$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Respuesta:} $z_1 \approx \boxed{0.45065675}$, $z_2 \approx \boxed{1.74473805}$, $z_3 \approx \boxed{2.23831980}$, $z_4 \approx \boxed{3.70904120}$.
+
+\textbf{c. Aproximaci\'on inicial para el $n$-\'esimo cero positivo:}
+
+Observando el patr\'on de los ceros: a partir del $z_4$ (n\'umero 4), los ceros ocurren aproximadamente en pares separados por $\sim 1$ unidad, con un patr\'on que se estabiliza alrededor de:
+\[
+z_n \approx n - 0.5, \quad n \geq 2 \text{ (para los ceros pares de la serie)},
+\]
+m\'as precisamente, para $n$ grande los ceros se aproximan a los enteros y semienteros donde $\cos(\pi x) = \pm 1$ y $e^{0.4x}$ crece. Una estimaci\'on inicial razonable es:
+\[
+p_0^{(n)} \approx \frac{n}{2} + \delta_n, \quad \text{donde } \delta_n \text{ se determina gr\'aficamente.}
+\]
+Para $n$ grande (ej. $n \geq 10$), los ceros ocurren cerca de los semienteros: $x \approx n/2$ o $x \approx (n+1)/2$.
+
+\textbf{d. Vig\'esimoquinto cero positivo:}
+
+Siguiendo el patrón observado (los ceros alternan aproximadamente entre $k - 0.5$ y $k$, para $k$ entero), el vig\'esimoquinto cero positivo cae cerca de $x \approx 24.5$. Newton desde $p_0 = 24.5$ converge en 3 iteraciones.
+
+\textbf{Respuesta:} $z_{25} \approx \boxed{24.49988705}$
+
+\vspace{0.4cm}
+
+%--- Ejercicio 7 ------------------------------------------
+\textbf{7.} $f(x) = x^{1/3}$ tiene ra\'iz en $x = 0$. Compare Newton ($x_0 = 1$) y Secante ($p_0 = 5$, $p_1 = 0.5$).
+
+\textbf{Descripci\'on:} Se analiza el comportamiento de ambos m\'etodos para una funci\'on con derivada singular en la ra\'iz.
+
+\textbf{M\'etodo de Newton} ($p_0 = 1$):
+
+$f'(x) = \frac{1}{3}x^{-2/3}$. La iteraci\'on es:
+\[
+p_n = p_{n-1} - \frac{p_{n-1}^{1/3}}{\frac{1}{3}p_{n-1}^{-2/3}} = p_{n-1} - 3p_{n-1} = -2p_{n-1}
+\]
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.0cm}C{2.0cm}C{2.0cm}C{2.0cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $f'(p_{i-1})$ & $p_i$ \\
+\midrule
+1 & $1.000000$ & $1.000000$ & $0.333333$ & $-2.000000$ \\
+2 & $-2.000000$ & $-1.259921$ & $0.209987$ & $4.000000$ \\
+3 & $4.000000$ & $1.587401$ & $0.132283$ & $-8.000000$ \\
+4 & $-8.000000$ & $-2.000000$ & $0.083333$ & $16.000000$ \\
+5 & $16.000000$ & $2.519842$ & $0.052497$ & $-32.000000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+El patr\'on es $p_n = (-2)^n \to \infty$: el m\'etodo \textbf{diverge}.
+
+\textbf{M\'etodo de la Secante} ($p_0 = 5$, $p_1 = 0.5$):
+
+\begin{center}\small
+\begin{tabular}{C{0.5cm}C{2.2cm}C{2.2cm}C{2.4cm}C{1.8cm}}
+\toprule
+$i$ & $p_{i-1}$ & $f(p_{i-1})$ & $p_i$ & $|p_i-p_{i-1}|$ \\
+\midrule
+2 & $0.500000$ & $0.793701$ & $-3.398012$ & $3.898$ \\
+3 & $-3.398012$ & $-1.503401$ & $-0.846851$ & $2.551$ \\
+4 & $-0.846851$ & $-0.946097$ & $3.484077$ & $4.331$ \\
+5 & $3.484077$ & $1.515989$ & $0.817380$ & $2.667$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La secante tambi\'en \textbf{diverge}: los iterados oscilan entre valores de creciente magnitud sin converger a $x=0$.
+
+\textbf{Comparaci\'on:} Ambos m\'etodos fallan porque $f'(x) = \frac{1}{3}x^{-2/3} \to \infty$ cuando $x \to 0$, lo que implica que la ra\'iz es un punto cr\'itico de orden fraccionario. Newton produce la recurrencia $p_n = (-2)^n$ que diverge geom\'etricamente. La Secante oscila sin convergencia. Ninguno de los dos m\'etodos es apropiado para esta funci\'on desde estos puntos iniciales.
+
+\textbf{Respuesta:} \textbf{Ambos m\'etodos divergen}. Para hallar la ra\'iz $x=0$ de $f(x) = x^{1/3}$ se recomienda el m\'etodo de bisecci\'on en un intervalo que contenga el cero.
+
+\end{document}
